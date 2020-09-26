@@ -1,0 +1,148 @@
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700&display=swap');
+
+body{
+    font-family: 'Nunito', sans-serif;
+    min-height: 100vh;
+    padding-top: 76px;
+}
+
+/* Section Style */
+    /* Capek Cuk, Skipp Dlu */
+/* End Section Style */
+
+.page-navbar{
+    position: fixed;
+    width: 100%;
+    transition: 200ms linear;
+    z-index: 1;
+    top: 0;
+}
+
+.page-navbar .nav-link{
+    text-decoration: none;
+    font-weight: 600;
+    color: #353b48 !important;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.page-navbar .nav-link.btn{
+    text-decoration: none;
+    font-weight: 700;
+    color: white !important;
+
+    background: #00a8ff;
+    box-shadow: 0px 8px 87px rgba(0, 0, 0, 0.1);
+    border-radius: 65px;
+    padding: 10px 50px;
+}
+
+.scrolled{
+    background-color: white;
+    box-shadow: 0px 0px 10px rgb(201, 201, 201);
+    transition: box-shadow 200ms linear;
+}
+
+.page-content{
+    min-height: 15bio0vh;
+}
+
+.page-content .container{
+    padding-top: 60px;
+}
+
+.header-left-wrapper{
+    padding-right: 80px;
+}
+
+.page-content .header-subtitle{
+    font-size: 22px;
+    font-weight: 600;
+    color: #00A8FF;
+    margin-bottom: 10px;
+}
+
+.page-content .header-title{
+    font-size: 55px;
+    font-weight: 700;
+    color: #353b48;
+    margin-bottom: 15px;
+}
+
+.page-content .header-description{
+    font-size: 18px;
+    font-weight: 300;
+    color: #7f8fa6;
+    margin-bottom: 40px;
+}
+
+.page-content .btn-header-info{
+    background: #00a8ff;
+    box-shadow: 0px 8px 87px rgba(0, 0, 0, 0.1);
+    border-radius: 65px;
+    padding: 10px 50px;
+
+    color: white;
+    font-weight: 600;
+}
+
+/* Page Data */
+
+.page-content .container table tbody tr td{
+    vertical-align: middle;
+}
+
+.btn-edit-biodata{
+    margin-left: 10px;
+}
+
+.badge{
+    line-height: 2;
+    height: 31px;
+    padding: .25em 1em;
+}
+
+.message{
+    font-size: 18px;
+    width: 80%;
+}
+
+/* End Page Data */
+
+footer {
+    border-top: 1px solid #f0f0f0;
+    margin-top: 50px;
+  }
+
+footer p {
+    font-weight: 400;
+    color: #adadad;
+  }
+
+@media (max-width: 576px) {                                                                                                                                                                                                                                                                               
+    .page-content .container{
+        padding-top: 30px;
+    }
+
+    .btn{
+        width:100%;          
+    }
+
+    .btn-edit{
+        margin-bottom: 10px;
+    }
+
+    .badge-biodata {
+        margin-top: 10px;
+        text-align: left !important;
+    }
+
+    .badge{
+        width: 100%;
+    }
+
+    .btn-edit-biodata{
+        margin-top: 5px;
+    }
+    
+}
