@@ -9,6 +9,8 @@ use Haruncpi\LaravelIdGenerator\IdGenerator;
 use App\User;
 use App\Tes;
 use App\Biodata;
+use App\Academic;
+
 
 class AdminController extends Controller
 {
@@ -22,12 +24,20 @@ class AdminController extends Controller
         return view('admin.index');
     }
 
-    public function data($status){
+    public function data(Request $request ,$status){ // apa itu jir
+
+        if($request->year_id == 0){
+            $year = Academic::where('status',1)->first()->id; 
+        }else{
+            $year = $request->year_id;
+        }
+               
         $user = User::where('role', 1)->get();
-        $biodata = Biodata::orderBy('status','desc')->get();
-        $diterima = Biodata::where('status','Diterima')->get();
-        $ditolak = Biodata::where('status','Ditolak')->get();
-        $belumver = Biodata::where('status','Belum Verifikasi')->get();
+        $biodata = Biodata::orderBy('status','desc')->where('academic_id',$year)->get();
+        $diterima = Biodata::where('status','Diterima')->where('academic_id',$year)->get();
+        $ditolak = Biodata::where('status','Ditolak')->where('academic_id',$year)->get();
+        $belumver = Biodata::where('status','Belum Verifikasi')->where('academic_id',$year)->get();
+        $akademik = Academic::all();
 
         $data = [
             'users'=>$user,
@@ -35,7 +45,9 @@ class AdminController extends Controller
             'diterima' => $diterima,
             'ditolak' => $ditolak,
             'belumver' => $belumver,
-            'jumlah_all'=>$user->count() + $biodata->count(),
+            'year' => $year,
+            'akademik' => $akademik,
+            'jumlah_all'=> $biodata->count(),
             'jumlah_diterima' => $diterima->count(),
             'jumlah_ditolak' => $ditolak->count(),
             'jumlah_belumver' => $belumver->count(),
@@ -76,7 +88,7 @@ class AdminController extends Controller
             'role' => 1,
         ]);
 
-        return redirect()->route('admin-data-user','all')->with('success','File created successfully');
+        return redirect()->route('admin-data-user',['status'=>'all','year_id'=>0])->with('success','File created successfully');
     }
 
     public function edit($id){
@@ -97,7 +109,7 @@ class AdminController extends Controller
             'email' => $check['email'],
         ]);
 
-        return redirect()->route('admin-data-user','all');
+        return redirect()->route('admin-data-user',['status'=>'all','year_id'=>0]);
     }
 
     public function destroy($id){
@@ -106,7 +118,7 @@ class AdminController extends Controller
             $data->biodata->delete();
         }
         $data->delete();
-        return redirect()->route('admin-data-user','all');
+        return redirect()->route('admin-data-user',['status'=>'all','year_id'=>0]);
     }
 
     //Admin - Biodata
@@ -114,7 +126,7 @@ class AdminController extends Controller
     public function biodata($id){
         $data = User::findOrFail($id);
         if($data->role == 99){
-            return redirect()->route('admin-data-user','all')->withFail('Admin cant be edited');
+            return redirect()->route('admin-data-user',['status'=>'all','year_id'=>0])->withFail('Admin cant be edited');
         }
 
         return view('admin.biodata',['data' => $data]);
@@ -125,10 +137,6 @@ class AdminController extends Controller
     }
 
     public function storebio(Request $request,$id){
-
-        $gambar = $request->gambar->store('img');
-        $akte = $request->akte->store('akte');
-        $kk = $request->kk->store('kk');
 
         $check=request()->validate([
             'nama'=>'required',
@@ -153,7 +161,14 @@ class AdminController extends Controller
             'pendidikan_wali'=>'nullable',
             'pekerjaan_wali'=>'nullable',
             'status'=>'required',
+            'img'=>'image',
+            'akte'=>'image',
+            'kk'=>'image',
         ]);
+
+        $gambar = $request->gambar->store('img');
+        $akte = $request->akte->store('akte');
+        $kk = $request->kk->store('kk');
 
         Biodata::create([
             'nama'=> $check['nama'],
@@ -203,30 +218,6 @@ class AdminController extends Controller
     public function updatebio(Request $request,$id){
         $data = Biodata::where('user_id', $id)->first();
 
-        if($request->gambar){
-            if($data->gambar){
-                Storage::delete($data->gambar);
-            }
-            $gambar = $request->gambar->store('img');
-            $data->update(['gambar'=>$gambar]);
-        }
-
-        if($request->akte){
-            if($data->akte){
-                Storage::delete($data->akte);
-            }
-            $akte = $request->akte->store('akte');
-            $data->update(['akte'=>$akte]);
-        }
-
-        if($request->kk){
-            if($data->kk){
-                Storage::delete($data->kk);
-            }
-            $kk = $request->kk->store('kk');
-            $data->update(['kk'=>$kk]);
-        }
-
         $check=request()->validate([
             'nama'=>'required',
             'jenis_kelamin'=>'required',
@@ -250,7 +241,34 @@ class AdminController extends Controller
             'pendidikan_wali'=>'nullable',
             'pekerjaan_wali'=>'nullable',
             'status'=>'required',
+            'img'=>'image',
+            'akte'=>'image',
+            'kk'=>'image',
         ]);
+
+        if($request->gambar){
+            if($data->gambar){
+                Storage::delete($data->gambar);
+            }
+            $gambar = $request->gambar->store('img');
+            $data->update(['gambar'=>$gambar]);
+        }
+
+        if($request->akte){
+            if($data->akte){
+                Storage::delete($data->akte);
+            }
+            $akte = $request->akte->store('akte');
+            $data->update(['akte'=>$akte]);
+        }
+
+        if($request->kk){
+            if($data->kk){
+                Storage::delete($data->kk);
+            }
+            $kk = $request->kk->store('kk');
+            $data->update(['kk'=>$kk]);
+        }
 
         $data->update([
             'nama'=> $check['nama'],
@@ -301,15 +319,20 @@ class AdminController extends Controller
 
     //pdf
 
-    public function pdf(){
-        $data = User::where('role',1)->get();
-        $diterima = Biodata::where('status','Diterima')->count();
-        $ditolak = Biodata::where('status','Ditolak')->count();
+    public function pdf($year){
+        if($year == 0){
+            $year = Academic::where('status',1)->first()->id;
+        }
+
+        $diterima = Biodata::where('status','Diterima')->where('academic_id',$year)->count();
+        $ditolak = Biodata::where('status','Ditolak')->where('academic_id',$year)->count();
+        $akademik = Academic::all();
+
         return view('admin.pendataan',[
-            'datas'=>$data,
-            'all'=>$data->count(),
             'diterima'=>$diterima,
             'ditolak'=>$ditolak,
+            'akademik'=>$akademik,
+            'year'=>$year,
             ]);
     }
 

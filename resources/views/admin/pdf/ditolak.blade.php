@@ -43,6 +43,7 @@
             <th style="width:200px;">Nama Siswa</th>
             <th>No HP</th>
             <th>E-mail</th>
+            <th>Tahun Akademik</th>
             <th>Status</th>
         </tr>
         @foreach($ditolak as $index=>$data)
@@ -51,6 +52,7 @@
             <td>{{$data->nama}}</td>
             <td>{{$data->no_hp}}</td>
             <td>{{$data->user->email}}</td>
+            <td>{{$data->academic->academic_year}}</td>
             <td>{{$data->status}}</td>
         </tr>
         @endforeach

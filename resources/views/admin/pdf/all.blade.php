@@ -47,6 +47,7 @@
             <th style="width:200px;">Nama Siswa</th>
             <th>No HP</th>
             <th>E-mail</th>
+            <th>Tahun Akademik</th>
             <th>Status</th>
         </tr>
         @foreach($diterima as $index=>$siswa)
@@ -55,6 +56,7 @@
             <td>{{$siswa->nama}}</td>
             <td>{{$siswa->no_hp}}</td>
             <td>{{$siswa->user->email}}</td>
+            <td>{{$siswa->academic->academic_year}}</td>
             <td>{{$siswa->status}}</td>
         </tr>
         @endforeach
@@ -75,6 +77,7 @@
             <th style="width:200px;">Nama Siswa</th>
             <th>No HP</th>
             <th>E-mail</th>
+            <th>Tahun Akademik</th>
             <th>Status</th>
         </tr>
         @foreach($ditolak as $index=>$siswa)
@@ -83,11 +86,12 @@
             <td>{{$siswa->nama}}</td>
             <td>{{$siswa->no_hp}}</td>
             <td>{{$siswa->user->email}}</td>
+            <td>{{$siswa->academic->academic_year}}</td>
             <td>{{$siswa->status}}</td>
         </tr>
         @endforeach
         <tr>
-            <td style="text-align: right" colspan="4">Jumlah Siswa</td>
+            <td style="text-align: right" colspan="5">Jumlah Siswa</td>
             <td>{{$ditolak->count()}}</td>
         </tr>
     </table>

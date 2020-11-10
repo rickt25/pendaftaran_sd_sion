@@ -40,6 +40,7 @@ class CreateBiodatasTable extends Migration
             $table->string('akte')->nullable();
             $table->string('kk')->nullable();
             $table->string('status')->nullable();
+            $table->string('tahun_akademik')->nullable();
             $table->foreignId('user_id');
             $table->timestamps();
 

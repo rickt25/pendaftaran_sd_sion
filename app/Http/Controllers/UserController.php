@@ -8,6 +8,7 @@ use Haruncpi\LaravelIdGenerator\IdGenerator;
 use App\User;
 use App\Biodata;
 use App\Tes;
+use App\Academic;
 
 class UserController extends Controller
 {
@@ -30,10 +31,12 @@ class UserController extends Controller
     }
 
     public function create(){
-        return view('user.create');
+        $year = Academic::where('status',1)->first()->academic_year;
+        return view('user.create',['year'=>$year]);
     }
 
     public function store(Request $request){
+        $year = Academic::where('status',1)->first()->id;
 
         $check=request()->validate([
             'nama'=>'required',
@@ -92,7 +95,8 @@ class UserController extends Controller
             'user_id' => Auth::user()->id,
             'gambar' => $gambar,
             'akte' => $akte,
-            'kk' => $kk
+            'kk' => $kk,
+            'academic_id' => $year,
             ]);
         User::findOrFail(Auth::user()->id)->update(['role'=>2]);
     

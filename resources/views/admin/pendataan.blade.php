@@ -15,7 +15,17 @@
                         <path fill-rule="evenodd" d="M11.5 8a.5.5 0 0 0-.5-.5H6a.5.5 0 0 0 0 1h5a.5.5 0 0 0 .5-.5z"/>
                     </svg>
                 </a>
-                
+
+                <div class="col-2" style="margin-left: 85px;">
+                    <select id="year-selector" class="form-control" onchange="selectYear()">
+                        @foreach ($akademik as $tahun)
+                            <option value="{{$tahun->id}}" @if($tahun->id == $year) selected @endif>{{$tahun->academic_year}}</option>
+                        @endforeach
+                    </select>
+                </div>
+
+            </div>
+            <div class="row">
                 <table class="table w-75 m-auto">
                     <thead>
                         <tr>
@@ -36,31 +46,34 @@
                         <tr>
                             <td>Siswa sudah verifikasi</td>
                             <td>{{$diterima + $ditolak}} Siswa</td>
-                            <td><a href="{{route('view-all')}}" class="btn btn-info btn-block">View Data</a></td>
-                            <td><a href="/pdf" class="btn btn-primary btn-block">Cetak Laporan</td>
+                            <td><a href="{{route('view-all',$year)}}" class="btn btn-info btn-block">View Data</a></td>
+                            <td><a href="{{route('download-pdf',$year)}}" class="btn btn-primary btn-block">Cetak Laporan</td>
                         </tr>
                         <tr>
                             <td>Diterima</td>
                             <td>{{$diterima}} Siswa</td>
-                            <td><a href="{{route('view-diterima')}}" class="btn btn-info btn-block">View Data</a></td>
-                            <td><a href="/pdf/diterima" class="btn btn-primary btn-block">Cetak Laporan</td>
+                            <td><a href="{{route('view-diterima',$year)}}" class="btn btn-info btn-block">View Data</a></td>
+                            <td><a href="{{route('diterima-pdf',$year)}}" class="btn btn-primary btn-block">Cetak Laporan</td>
                         </tr>
                         <tr>
                             <td>Ditolak</td>
                             <td>{{$ditolak}} Siswa</td>
-                            <td><a href="{{route('view-ditolak')}}" class="btn btn-info btn-block">View Data</a></td>
-                            <td><a href="/pdf/ditolak" class="btn btn-primary btn-block">Cetak Laporan</td>
+                            <td><a href="{{route('view-ditolak',$year)}}" class="btn btn-info btn-block">View Data</a></td>
+                            <td><a href="{{route('ditolak-pdf',$year)}}" class="btn btn-primary btn-block">Cetak Laporan</td>
                         </tr>
                     </tbody>
 
 
                 </table>
-
-            </div>
-            
-            <div class="row mt-5" style="padding:0px 15px 0px 15px">
-                
             </div>
         </div>
     </div>
+    </div>
+
+    <script>
+        function selectYear(){
+            let yearForm = document.getElementById("year-selector")
+            window.location.href = "/pendataan/"+ yearForm.value
+        }
+    </script>
 @endsection

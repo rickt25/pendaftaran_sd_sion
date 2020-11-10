@@ -14,4 +14,9 @@ class Biodata extends Model
     {
         return $this->belongsTo('App\User');
     }
+
+    public function academic()
+    {
+        return $this->belongsTo(Academic::class);
+    }
 }

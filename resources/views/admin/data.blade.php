@@ -21,6 +21,15 @@
                         <path fill-rule="evenodd" d="M11.5 8a.5.5 0 0 0-.5-.5H6a.5.5 0 0 0 0 1h5a.5.5 0 0 0 .5-.5z"/>
                     </svg>
                 </a>
+
+                <div class="col-2">
+                    <select id="year-selector" class="form-control" onchange="selectYear()">
+                        @foreach ($akademik as $tahun)
+                            <option value="{{$tahun->id}}" @if($tahun->id == $year) selected @endif>{{$tahun->academic_year}}</option>
+                        @endforeach
+                    </select>
+                </div>
+                
                 <a href="{{route('admin-create-user')}}" class="btn btn-primary position-absolute" style="width:200px;height:40px; right:15px;">+ Tambah User</a>
             </div>
 
@@ -33,6 +42,7 @@
                             <tr>
                                 <th>Name</th>
                                 <th>Email</th>
+                                <th>Tahun Akademik</th>
                                 <th>Status Verifikasi</th>
                                 <th>Aksi</th>
                                 <th>Biodata</th>
@@ -44,6 +54,7 @@
                                 <tr>
                                     <td>{{$biodata->user->name}}</td>
                                     <td>{{$biodata->user->email}}</td>
+                                    <td>{{$biodata->academic->academic_year}}</td>
                                     <td>{{$biodata->status}}</td>
                                     <td>
                                         <form action="{{ route('admin-delete-user', $biodata->user->id) }}" method="POST">
@@ -61,32 +72,18 @@
                                     </td>
                                 </tr>
                             @endforeach
-                            @foreach($users as $user)
-                                <tr>
-                                    <td>{{$user->name}}</td>
-                                    <td>{{$user->email}}</td>
-                                    <td>@if($user->biodata) {{$user->biodata->status}} @else Belum ada data @endif</td>
-                                    <td>
-                                        
-                                        <form action="{{ route('admin-delete-user', $user->id) }}" method="POST">
-                                            <a href="{{ route('admin-edit-user', $user->id) }}" class="btn btn-success btn-edit">Edit</a>
-                                            @method('delete')
-                                            @csrf
-                                            <button type="submit" onclick="return confirm('Delete data?');" class="btn btn-danger">Delete</button>
-                                        </form>
-                                    </td>
-                                    <td>
-                                        <a href="{{ route('admin-biodata', $user->id) }}" class="btn btn-primary btn-block">Biodata Siswa</a>
-                                    </td>
-                                    <td>
-                                        <a href="{{ route('admin-tes', $user->id) }}" class="btn btn-info btn-block">Hasil Tes</a>
-                                    </td>
-                                </tr>
-                            @endforeach
+                            
                         </tbody>
                     </table>
                 </div>
             </div>
         </div>
     </div>
+
+    <script>
+        function selectYear(){
+            let yearForm = document.getElementById("year-selector")
+            window.location.href = "/admin/data/all?year_id="+ yearForm.value
+        }
+    </script>
 @endsection

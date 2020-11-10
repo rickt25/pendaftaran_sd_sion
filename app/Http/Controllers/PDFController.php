@@ -12,9 +12,9 @@ use App\Tes;
 
 class PDFController extends Controller
 {
-    public function downloadPDF(){
-        $diterima = Biodata::where('status','Diterima')->get();
-        $ditolak = Biodata::where('status','Ditolak')->get();
+    public function downloadPDF($year){
+        $diterima = Biodata::where('status','Diterima')->where('academic_id',$year)->get();
+        $ditolak = Biodata::where('status','Ditolak')->where('academic_id',$year)->get();
         $pdf = PDF::loadView('admin.pdf.all',[
             'ditolak'=>$ditolak,
             'diterima'=>$diterima,
@@ -23,37 +23,37 @@ class PDFController extends Controller
         return $pdf->download('Daftar-Siswa.pdf');
     }
 
-    public function diterimaPDF(){
-        $diterima = Biodata::where('status','Diterima')->get();
+    public function diterimaPDF($year){
+        $diterima = Biodata::where('status','Diterima')->where('academic_id',$year)->get();
         $pdf = PDF::loadView('admin.pdf.diterima',['diterima'=>$diterima]);
         
         return $pdf->download('Daftar-Siswa-Diterima.pdf');
     }
 
-    public function ditolakPDF(){
-        $ditolak = Biodata::where('status','Ditolak')->get();
+    public function ditolakPDF($year){
+        $ditolak = Biodata::where('status','Ditolak')->where('academic_id',$year)->get();
         $pdf = PDF::loadView('admin.pdf.ditolak',['ditolak'=>$ditolak]);
         
         return $pdf->download('Daftar-Siswa-Ditolak.pdf');
     }
 
-    public function viewPDF(){
-        $diterima = Biodata::where('status','Diterima')->get();
-        $ditolak = Biodata::where('status','Ditolak')->get();
+    public function viewPDF($year){
+        $diterima = Biodata::where('status','Diterima')->where('academic_id',$year)->get();
+        $ditolak = Biodata::where('status','Ditolak')->where('academic_id',$year)->get();
         return view('admin.pdf.all',[
             'diterima'=>$diterima,
             'ditolak'=>$ditolak,
             ]);
     }
-    public function viewDiterima(){
-        $diterima = Biodata::where('status','Diterima')->get();
+    public function viewDiterima($year){
+        $diterima = Biodata::where('status','Diterima')->where('academic_id',$year)->get();
         return view('admin.pdf.diterima',[
             'diterima'=>$diterima,
         ]);
     }
 
-    public function viewDitolak(){
-        $ditolak = Biodata::where('status','Ditolak')->get();
+    public function viewDitolak($year){
+        $ditolak = Biodata::where('status','Ditolak')->where('academic_id',$year)->get();
         return view('admin.pdf.ditolak',[
             'ditolak'=>$ditolak,
         ]);

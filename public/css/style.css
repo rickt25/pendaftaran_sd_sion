@@ -107,6 +107,16 @@ body{
     width: 80%;
 }
 
+.card-deck{
+    justify-content: flex-start;
+    margin: auto;
+    width: 85%;
+}
+
+.year-dropdown{
+    width: 100%;
+}
+
 /* End Page Data */
 
 footer {

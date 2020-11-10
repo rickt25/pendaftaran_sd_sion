@@ -21,6 +21,15 @@
                         <path fill-rule="evenodd" d="M11.5 8a.5.5 0 0 0-.5-.5H6a.5.5 0 0 0 0 1h5a.5.5 0 0 0 .5-.5z"/>
                     </svg>
                 </a>
+
+                <div class="col-2">
+                    <select id="year-selector" class="form-control" onchange="selectYear()">
+                        @foreach ($akademik as $tahun)
+                            <option value="{{$tahun->id}}" @if($tahun->id == $year) selected @endif>{{$tahun->academic_year}}</option>
+                        @endforeach
+                    </select>
+                </div>
+
                 <a href="{{route('admin-create-user')}}" class="btn btn-primary position-absolute" style="width:200px;height:40px; right:15px;">+ Tambah User</a>
             </div>
 
@@ -33,6 +42,7 @@
                             <tr>
                                 <th>Name</th>
                                 <th>Email</th>
+                                <th>Tahun Akademik</th>
                                 <th>Status Verifikasi</th>
                                 <th>Aksi</th>
                                 <th>Info</th>
@@ -43,6 +53,7 @@
                                 <tr>
                                     <td>{{$user->user->name}}</td>
                                     <td>{{$user->user->email}}</td>
+                                    <td>{{$user->academic->academic_year}}</td>
                                     <td>{{$user->status}}</td>
                                     <td>
                                         <form action="{{ route('admin-delete-user', $user->user->id) }}" method="POST">
@@ -63,4 +74,11 @@
             </div>
         </div>
     </div>
+
+    <script>
+        function selectYear(){
+            let yearForm = document.getElementById("year-selector")
+            window.location.href = "/admin/data/diterima?year_id="+ yearForm.value
+        }
+    </script>
 @endsection

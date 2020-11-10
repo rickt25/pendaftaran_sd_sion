@@ -81,12 +81,6 @@
                                 <td></td>
                                 <td><b>*calon siswa harus berumur 5 hingga 6 tahun</b></td>
                               </tr>
-
-                              <tr>
-                                <td></td>
-                                <td></td>
-                                <td><b>*calon siswa harus berumur 5 hingga 6 tahun</b></td>
-                              </tr>
                       
                               <tr>
                                 <td>Agama</td>
@@ -261,8 +255,22 @@
                               <tr>
                                 <td>Upload Kartu Keluarga</td>
                                 <td>:</td>
-                                <td><input type="file" name="kk" require></td>
+                                <td><input type="file" name="kk" required></td>
                               </tr>
+                              <tr>
+                                <td></td>
+                                <td></td>
+                                <td>*file wajib berbentuk jpg/jpeg/png</td>
+                              </tr>
+                              <tr>
+                                <td colspan="3"><hr></td>
+                              </tr>
+                              <tr>
+                                <td>Tahun Ajaran</td>
+                                <td>:</td>
+                                <td><input type="text" value="{{$year}}" disabled></td>
+                              </tr>
+                              
                               <tr>
                                 <td colspan="3"><hr></td>
                               </tr>
